@@ -2,7 +2,11 @@ import idaapi
 import idautils
 
 def decompile(func):
-    return str(idaapi.decompile(func))
+    try:
+        func_str = idaapi.decompile(func)
+    except:
+        return " decompile faild \n"
+    return str(func_str)
 
 def main():
     if not idaapi.init_hexrays_plugin():
