@@ -3,12 +3,18 @@ import os
 import shutil
 import zipfile
 import lief
+import sys
 
 """
  使用方法：
    python3 需要注入的apk  输出路径（注意结尾不要添加/） 注入so的名字（最好是第一个加载的） 
             -apksign（可选项，写了就一键签名） -persistence(反正只多一个config文件，最好加上)
 """
+def getpwd():
+    pwd = sys.path[0]
+    if os.path.isfile(pwd):
+        pwd = os.path.dirname(pwd)
+    return pwd
 
 class LIEFInject:
     def __init__(self,args):
@@ -25,7 +31,7 @@ class LIEFInject:
         self.outdir  = args.output
         self.soname  = args.soname
         self.deletelist = []
-        self.toolPath = os.getcwd() + r"\tools"
+        self.toolPath = getpwd() + r"\tools"
 
 
     def injectso(self):
