@@ -11,7 +11,7 @@ import frida
 """
 
 device = frida.get_usb_device()
-pid = device.spawn(["com.XiangJian.QuickBall"])
+pid = device.spawn(["com.nayijian.guanwang"])
 session = device.attach(pid)
 device.resume(pid)
 
@@ -132,8 +132,6 @@ function get_file_size(fd){
 
 """
 
-f = open("../doLua.js", "r", encoding="utf-8")
-scr = f.read()
 def on_message(message, data):
     if message['type'] == 'send':
         print("[*] {0}".format(message['payload']))
