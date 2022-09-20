@@ -14,6 +14,8 @@ yuansheninject.py 是喵喵子的 [使用frida获取unity il2cpp符号信息](ht
 
 exportCode.py 是ida 导出伪代码到 cpp文件里
 
+GGHook.js 用户获取GG脚本运行时的相关信息 [GameGuardian的Lua脚本分析](https://nszdhd1.github.io/2022/09/08/GameGuardian%E7%9A%84Lua%E8%84%9A%E6%9C%AC%E6%B7%B7%E6%B7%86%E5%88%86%E6%9E%90/#more)
+
 ## InjectFrida
 
 frida注入apk的两种实现方式：
