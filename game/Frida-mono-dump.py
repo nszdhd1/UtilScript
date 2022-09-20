@@ -38,7 +38,7 @@ def push_dll():
 
 
 device = frida.get_usb_device()
-pid = device.spawn(["com.tencent.pocket"])
+pid = device.spawn(["com.DefaultCompany.unity2020"])
 session = device.attach(pid)
 device.resume(pid)
 
@@ -159,6 +159,30 @@ function do_load_dll(filePath){
     }
 
 }
+
+"""
+
+
+
+scr = """
+ let so = Process.findModuleByName("libil2cpp.so")
+        while(so == null){
+            Process.findModuleByName("libil2cpp.so")
+        }
+
+        var p_size = 8;
+        Interceptor.attach(ptr(so.base).add(0x2FE6DC),{
+            onEnter:function(args){
+                var newMethod = this.context.x20
+                var pointer = newMethod.readPointer(); //MethodInfo
+                var name = newMethod.add(p_size * 2).readPointer().readCString();
+                var klass = newMethod.add(p_size * 3).readPointer();//Il2CppClass
+                var klass_name = klass.add(p_size * 2).readPointer().readCString();
+                var klass_paze = klass.add(p_size * 3).readPointer().readCString();
+                send(klass_paze+"."+klass_name+":"+name+"    -> "+pointer.sub(so.base));
+            }
+        });
+
 
 """
 
