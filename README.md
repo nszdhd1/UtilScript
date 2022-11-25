@@ -16,6 +16,8 @@ exportCode.py 是ida 导出伪代码到 cpp文件里
 
 GGHook.js 用户获取GG脚本运行时的相关信息 [GameGuardian的Lua脚本分析](https://nszdhd1.github.io/2022/09/08/GameGuardian%E7%9A%84Lua%E8%84%9A%E6%9C%AC%E6%B7%B7%E6%B7%86%E5%88%86%E6%9E%90/#more)
 
+GenShin-3.2-Dump.js 原神3.2版本符号信息dump [IL2CPP runtime dump](https://bbs.pediy.com/thread-275146.htm)
+
 ## InjectFrida
 
 frida注入apk的两种实现方式：
