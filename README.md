@@ -26,3 +26,7 @@ frida注入apk的两种实现方式：
 
 使用方法：
 python3 script.py 需要注入的apk  输出路径（注意结尾不要添加/） 注入so的名字（最好是第一个加载的） apksign（可选项，写了就一键签名） -persistence(反正只多一个config文件，最好加上)
+
+## lua
+
+GGInjector64.lua  使用 gameguardian lua脚本 实现64位elf文件解析
