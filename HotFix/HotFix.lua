@@ -5,23 +5,23 @@ function print_func_ref_by_csharp()
     for k, v in pairs(registry) do
         if type(k) == 'number' and type(v) == 'function' and registry[v] == k then
             local info = debug.getinfo(v)
-            CS.UnityEngine.Debug.LogError(string.format('%s:%d', info.short_src, info.linedefined))
+            ReleaseLogger.Log("[oook]", "[HotFix]", "[print_func_ref_by_csharp]",string.format('%s:%d', info.short_src, info.linedefined))
         end
     end
 end
 function hotfix(filename)
     --print_func_ref_by_csharp()
-    CS.UnityEngine.Debug.LogError("start hotfix: "..filename)
-    local dumpname = string.gsub(filename,"%.","_")
-
+    ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]","start hotfix: "..filename)
+    --local dumpname = string.gsub(filename,"%.","_")
+    local dumpname = filename
     local oldModule
     if package.loaded[filename] then
         oldModule = package.loaded[filename]
     elseif package.loaded[dumpname] then
         oldModule = package.loaded[dumpname]
     else
-        CS.UnityEngine.Debug.LogError('this file nevev loaded: '..filename)
-        require(filename)
+        ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]",'this file nevev loaded: '..filename)
+        return
     end
 
     package.loaded[filename] = nil
@@ -30,12 +30,12 @@ function hotfix(filename)
     local ok,err = pcall(require, dumpname)
     if not ok then
         package.loaded[filename] = oldModule
-        CS.UnityEngine.Debug.LogError('reload lua file failed:'..err)
+        ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]",'reload lua file failed:'..err)
         return
     end
 
 
-    CS.UnityEngine.Debug.LogError('loaded newMpdule '..dumpname..' ,oldModule: '..filename)
+    ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]",'loaded newMpdule '..dumpname..' ,oldModule: '..filename)
     local newModule = package.loaded[dumpname]
 
     if newModule == nil then
@@ -45,22 +45,23 @@ function hotfix(filename)
     end
 
 
-    CS.UnityEngine.Debug.LogError('oldModule: '.. tostring(oldModule)..' ,newModule: '..tostring(newModule))
+    ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]",'oldModule: '.. tostring(oldModule)..' ,newModule: '..tostring(newModule))
 
+   --
+   --
+   -- if newModule == nil then
+   --     package.loaded[filename] = oldModule
+   --     ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]",'replaced faild !! ')
+   --     return
+   -- end
+   --local updated_tables = {}
+   -- ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]","updated_tables:"..type(oldModule).." new:"..type(newModule))
+   -- --update_table(newModule, oldModule,updated_tables)
+   -- ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]","7")
+   --
+   -- package.loaded[filename] = newModule
 
-
-    if newModule == nil then
-        package.loaded[filename] = oldModule
-        CS.UnityEngine.Debug.LogError('replaced faild !! ')
-        return
-    end
-       --local updated_tables = {}
-    --update_table(newModule, oldModule,updated_tables)
-    --CS.UnityEngine.Debug.LogError("7")
-
-    package.loaded[filename] = newModule
-
-    CS.UnityEngine.Debug.LogError('replaced succeed')
+    ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]",'replaced succeed')
 
 end
 
@@ -93,7 +94,7 @@ function update_func(new_func, old_func)
         if not name then break end
         old_upvalue_map[name] = value
         OldExistName[name] = true
-        CS.UnityEngine.Debug.LogError("OldExistName "..name.." i :"..i..'-->'..tostring(value))
+        ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]","OldExistName "..name.." i :"..i..'-->'..tostring(value))
     end
 
     -- Update new upvalues with old.
@@ -106,10 +107,10 @@ function update_func(new_func, old_func)
             if type(old_value) == "function" then
                 --update_func(value,old_value)
                 debug.setupvalue(new_func, i, old_value)
-                CS.UnityEngine.Debug.LogError(name.." is function")
+                ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]",name.." is function")
             else
                 if old_value ~= value then
-                    CS.UnityEngine.Debug.LogError("set "..name.."")
+                    ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]","set "..name.."")
                     debug.setupvalue(new_func, i, old_value)
                 end
             end
@@ -143,7 +144,7 @@ function update_table(new_table, old_table, updated_tables)
         end
     end
 
-    CS.UnityEngine.Debug.LogError("---- Update metatable")
+    ReleaseLogger.Log("[oook]", "[HotFix]", "[hotfix]","---- Update metatable")
     ---- Update metatable.
     local old_meta = debug.getmetatable(old_table)
     local new_meta = debug.getmetatable(new_table)

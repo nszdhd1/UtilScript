@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 import sys
 import frida
 
@@ -9,20 +11,20 @@ import frida
 """
 
 device = frida.get_usb_device()
-pid = device.spawn(["com.xx.xxx"])
+pid = device.spawn(["com.nayijian.guanwang"])
 session = device.attach(pid)
 device.resume(pid)
 
 scr = """
-var APP_NAME = "com.xx.xxx"
+var APP_NAME = "com.nayijian.guanwang"
 
 var module = null;
 while(module == null){
-    module = Process.findModuleByName("libcocos2dlua.so");
+    module = Process.findModuleByName("libil2cpp.so");
 }
 send(module);
 
-Interceptor.attach(Module.findExportByName("libcocos2dlua.so","luaL_loadbufferx"),{
+Interceptor.attach(Module.findExportByName(null,"luaL_loadbufferx"),{
     onEnter:function(args){
         var name = Memory.readCString(args[3]);
         send(name.length);

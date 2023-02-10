@@ -38,7 +38,7 @@ def push_dll():
 
 
 device = frida.get_usb_device()
-pid = device.spawn(["com.tencent.pocket"])
+pid = device.spawn(["com.DefaultCompany.unity2020"])
 session = device.attach(pid)
 device.resume(pid)
 
@@ -161,6 +161,8 @@ function do_load_dll(filePath){
 }
 
 """
+
+
 
 def on_message(message, data):
     if message['type'] == 'send':
